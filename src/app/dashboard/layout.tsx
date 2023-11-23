@@ -9,9 +9,9 @@ export const metadata: Metadata = {
 
 const DashboardLayout = ({children}: {children: React.ReactNode}) => {
   return (
-    <div className="flex flex-row h-screen">
+    <div className="flex flex-row">
       <DashboardSideBar />
-      <div className="flex-grow">
+      <div className="flex flex-col h-screen w-full">
         <DashboardNavbar />
         {children}
       </div>

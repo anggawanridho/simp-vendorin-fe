@@ -8,9 +8,6 @@ const DashboardNavbar = () => {
           </svg>
         </button>
       </div>
-      <div className="ml-auto">
-        
-      </div>
     </div>
   )
 }
