@@ -1,6 +1,8 @@
+import Image from "next/image";
+
 const DashboardNavbar = () => {
   return (
-    <div className="md:flex md:flex-row p-4 text-custom-color-dashboard">
+    <div className="md:flex md:flex-row py-4 px-6 text-custom-color-dashboard">
       <div className="md:flex gap-4">
         <button>
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -17,6 +19,17 @@ const DashboardNavbar = () => {
             </button>
           </div>
         </form>
+      </div>
+      
+      <div className="md:flex gap-4 ml-auto items-center">
+        <Image 
+          src="/images/users/default.jpg"
+          alt="avatar user"
+          width="10"
+          height="10"
+          className="rounded-full w-10 h-10"
+        />
+        <p className="text-color-custom-dashboard">Admin123</p>
       </div>
     </div>
   )
