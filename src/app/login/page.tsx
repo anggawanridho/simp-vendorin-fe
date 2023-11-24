@@ -1,9 +1,12 @@
 "use client";
-import Link from "next/link";
+
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
 import toast from "react-hot-toast";
+import { Button, Input, Link, Spacer } from "@nextui-org/react";
+import { EyeFilledIcon } from "../../../public/EyeFilledIcon";
+import { EyeSlashFilledIcon } from "../../../public/EyeSlashFilledIcon";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -12,15 +15,18 @@ export default function LoginPage() {
     password: "",
   });
 
+  const [isVisible, setIsVisible] = React.useState(false);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onLogin = async () => {
     try {
       setLoading(true);
-      await axios.post("/api/users/login", user);
-      console.log("Login success");
-      toast.success("Sukses");
+      const response = await axios.post("/api/users/login", user);
+      console.log("Login success", response.data);
+      toast.success("Success Login");
       router.push("/profile");
     } catch (error: any) {
       console.log("Login failed", error.message);
@@ -43,34 +49,54 @@ export default function LoginPage() {
       <h1>{loading ? "Processing" : "Login"}</h1>
       <hr />
 
-      <label htmlFor="email">email</label>
-      <input
-        className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-        type="text"
-        name=""
-        id="email"
+      <Input
+        radius="full"
+        isRequired
+        type="email"
+        label="Email"
+        labelPlacement="outside"
         value={user.email}
         onChange={(e) => setUser({ ...user, email: e.target.value })}
-        placeholder="email"
+        className="max-w-xs"
       />
 
-      <label htmlFor="password">password</label>
-      <input
-        className="p-4 border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-        type="password"
-        name=""
-        id="password"
+      <Spacer y={2} />
+
+      <Input
+        className="max-w-xs"
+        radius="full"
+        isRequired
+        type={isVisible ? "text" : "password"}
+        label="Password"
+        labelPlacement="outside"
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+          >
+            {isVisible ? (
+              <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+            )}
+          </button>
+        }
         value={user.password}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
-        placeholder="password"
       />
-      <button
-        onClick={onLogin}
-        className="p-2 border bg-violet-500 hover:bg-violet-600 active:bg-violet-700 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-      >
-        Login
-      </button>
-      <Link href="/signup">Register Here</Link>
+
+      <Spacer y={5} />
+
+      <Button className="bg-success" onClick={onLogin} radius="full" size="md">
+        {buttonDisabled ? "Input" : "Login"}
+      </Button>
+
+      <Spacer y={1} />
+
+      <Link href="/signup" underline="hover" size="sm">
+        Register Here
+      </Link>
     </div>
   );
 }
