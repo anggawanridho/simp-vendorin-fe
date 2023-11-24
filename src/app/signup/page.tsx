@@ -1,8 +1,10 @@
 "use client";
-import Link from "next/link";
 import React, { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import axios from "axios";
+import { Button, Input, Link, Spacer } from "@nextui-org/react";
+import { EyeSlashFilledIcon } from "../../../public/EyeSlashFilledIcon";
+import { EyeFilledIcon } from "../../../public/EyeFilledIcon";
 
 export default function SignupPage() {
   const router = useRouter();
@@ -12,8 +14,11 @@ export default function SignupPage() {
     username: "",
   });
 
+  const [isVisible, setIsVisible] = React.useState(false);
   const [buttonDisabled, setButtonDisabled] = React.useState(false);
   const [loading, setLoading] = React.useState(false);
+
+  const toggleVisibility = () => setIsVisible(!isVisible);
 
   const onSignup = async () => {
     try {
@@ -44,42 +49,70 @@ export default function SignupPage() {
     <div className="flex flex-col items-center justify-center min-h-screen py-2">
       <h1>{loading ? "Processing" : "Signup"}</h1>
       <hr />
-      <label htmlFor="username">username</label>
-      <input
-        className="p-4 text-black border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
+      <Input
+        className="max-w-xs"
+        radius="full"
+        isRequired
         type="text"
-        id="username"
+        label="Username"
+        variant="bordered"
+        labelPlacement="outside"
         value={user.username}
         onChange={(e) => setUser({ ...user, username: e.target.value })}
-        placeholder="username"
       />
 
-      <label htmlFor="email">email</label>
-      <input
-        className="p-4 text-black border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-        type="text"
-        id="email"
+      <Spacer y={2} />
+
+      <Input
+        className="max-w-xs"
+        radius="full"
+        isRequired
+        type="email"
+        label="Email"
+        variant="bordered"
+        labelPlacement="outside"
         value={user.email}
         onChange={(e) => setUser({ ...user, email: e.target.value })}
-        placeholder="email"
       />
 
-      <label htmlFor="password">password</label>
-      <input
-        className="p-4 text-black border border-gray-300 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-        type="password"
-        id="password"
+      <Spacer y={2} />
+
+      <Input
+        className="max-w-xs"
+        radius="full"
+        isRequired
+        type={isVisible ? "text" : "password"}
+        label="Password"
+        variant="bordered"
+        labelPlacement="outside"
+        endContent={
+          <button
+            className="focus:outline-none"
+            type="button"
+            onClick={toggleVisibility}
+          >
+            {isVisible ? (
+              <EyeSlashFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+            ) : (
+              <EyeFilledIcon className="text-2xl text-default-400 pointer-events-none" />
+            )}
+          </button>
+        }
         value={user.password}
         onChange={(e) => setUser({ ...user, password: e.target.value })}
-        placeholder="password"
       />
-      <button
-        onClick={onSignup}
-        className="p-2 border bg-violet-500 hover:bg-violet-600 active:bg-violet-700 rounded-lg mb-4 focus:outline-none focus:border-gray-600"
-      >
-        {buttonDisabled ? "No signup" : "Signup"}
-      </button>
-      <Link href="/login">Visit login page</Link>
+
+      <Spacer y={2} />
+
+      <Button className="bg-success" onClick={onSignup} radius="full" size="md">
+        {buttonDisabled ? "Input" : "Signup"}
+      </Button>
+
+      <Spacer y={1} />
+
+      <Link href="/login" underline="hover" size="sm">
+        Already have an account?
+      </Link>
     </div>
   );
 }
