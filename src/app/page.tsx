@@ -1,8 +1,7 @@
 
 import Image from "next/image";
 import WebVitals from "../components/home/web-vitals";
-import Github from "../../public/github";
-import Twitter from "../../public/twitter";
+import { Github, Twitter } from "../components/shared/icons";
 import Card from "../components/home/card";
 import ComponentGrid from "../components/home/component-grid";
 
@@ -136,7 +135,7 @@ const features = [
     ),
   },
   {
-    title: "Hooks, utilities, and more",
+    title: "Plan, utilities, and more",
     description:
       "Vendorin offers a collection of shirt, t-shirt, jacket, polo, pants, and wearpack.",
     demo: (
